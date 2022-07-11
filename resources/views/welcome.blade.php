@@ -22,6 +22,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>User</th>
                     <th>Image</th>
                 </tr>
             </thead>
@@ -30,12 +31,18 @@
                     <tr>
                         <td>{{ $item->name }}</td>
                         <td>
+                            @if (!empty($item->user_id) && isset($item->user->name))
+                                {{ $item->user->name }}
+                            @endif
+                        </td>
+                        <td>
                             <img src="{{ $item->image }}" style="height: 100px" alt="">
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        {{ $blogs->links('pagination::bootstrap-5') }}
     </div>
 
 
@@ -49,7 +56,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" id="myForm"  enctype="multipart/form-data">
+                    <form action="" id="myForm" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="">Name</label>
                             <input type="text" name="name" class="form-control" id="name">
@@ -57,6 +64,15 @@
                         <div class="form-group">
                             <label for="">Image</label>
                             <input type="file" name="image" class="form-control" id="image">
+                        </div>
+                        <div class="form-group">
+                            <label for="">User</label>
+                            <select name="user_id" id="user_id" class="form-control">
+                                <option value="">User</option>
+                                @foreach ($users as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -108,7 +124,7 @@
                         var blog = '<tr><td>' + response.name +
                             '</td><td><img src=' + response.image +
                             ' style="height:100px" alt="" /> </td></tr>';
-                            // hien o duoi
+                        // hien o duoi
                         // $('#blogs').append(blog);
                         // hien o tren
                         $('#blogs').prepend(blog);

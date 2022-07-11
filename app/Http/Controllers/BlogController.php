@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -10,8 +11,9 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Blog::query()->orderBy('id', 'desc')->paginate(10);
+        $users = User::query()->orderBy('id', 'desc')->select(['id', 'name'])->get();
 
-        return view('welcome', compact('blogs'));
+        return view('welcome', compact('blogs', 'users'));
     }
 
     public function store(Request $request)

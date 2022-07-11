@@ -11,7 +11,8 @@ class Blog extends Model
 
     protected $fillable = [
         'name',
-        'image'
+        'image',
+        'user_id',
     ];
 
     public function getImageAttribute($image)
@@ -21,5 +22,10 @@ class Blog extends Model
         }
 
         return null;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
